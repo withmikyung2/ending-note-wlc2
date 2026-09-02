@@ -6,14 +6,67 @@
 <title>GYA_AMS | GYA 학사관리시스템</title>
 <style>
   :root{
-    --navy:#1f4e5f;
-    --navy-dark:#153842;
-    --gold:#c99a3a;
+    /* fixed brand tokens: same navy identity in both themes (hero, org chart, primary buttons) */
+    --brand:#1f4e5f;
+    --brand-dark:#153842;
+    --brand-ink:#ffffff;
+    --brand-tint:#3a6b7a;
+
+    /* adaptive surface/text tokens */
+    --accent:#1f4e5f;
+    --accent-strong:#153842;
+    --gold:#a97a1f;
     --bg:#f7f5f0;
     --card:#ffffff;
+    --card-tint:#eef3f2;
     --ink:#2b2b28;
     --muted:#6b6b63;
     --line:#e4ded0;
+    --room-bg:#dfe9e6;
+    --room-ink:#153842;
+    --note-bg:#fbf3e3;
+    --note-line:#ecd9ad;
+    --note-ink:#6b5522;
+    --disabled-bg:#c8c8c0;
+    --disabled-ink:#6b6b63;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --accent:#7fc4d8;
+      --accent-strong:#a9dbe8;
+      --gold:#e0b563;
+      --bg:#14201f;
+      --card:#1b2827;
+      --card-tint:#22322f;
+      --ink:#eae6da;
+      --muted:#a2a89c;
+      --line:#33403d;
+      --room-bg:#22322f;
+      --room-ink:#cfe6e0;
+      --note-bg:#2a2419;
+      --note-line:#4a3d20;
+      --note-ink:#e3c98a;
+      --disabled-bg:#3a4643;
+      --disabled-ink:#7c847f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --accent:#7fc4d8;
+    --accent-strong:#a9dbe8;
+    --gold:#e0b563;
+    --bg:#14201f;
+    --card:#1b2827;
+    --card-tint:#22322f;
+    --ink:#eae6da;
+    --muted:#a2a89c;
+    --line:#33403d;
+    --room-bg:#22322f;
+    --room-ink:#cfe6e0;
+    --note-bg:#2a2419;
+    --note-line:#4a3d20;
+    --note-ink:#e3c98a;
+    --disabled-bg:#3a4643;
+    --disabled-ink:#7c847f;
   }
   *{box-sizing:border-box;}
   body{
@@ -23,12 +76,12 @@
     color:var(--ink);
     line-height:1.65;
   }
-  a{color:var(--navy);}
+  a{color:var(--accent);}
   .wrap{max-width:960px;margin:0 auto;padding:0 20px;}
 
   header.hero{
-    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);
-    color:#fff;
+    background:linear-gradient(135deg,var(--brand) 0%,var(--brand-dark) 100%);
+    color:var(--brand-ink);
     padding:64px 0 48px;
   }
   header.hero .tag{
@@ -62,7 +115,7 @@
   section:last-of-type{border-bottom:none;}
   h2{
     font-size:22px;
-    color:var(--navy);
+    color:var(--accent);
     margin:0 0 6px;
   }
   h2 .num{color:var(--gold);margin-right:8px;}
@@ -81,13 +134,13 @@
     border-radius:10px;
     padding:20px;
   }
-  .card h3{margin:0 0 8px;font-size:15.5px;color:var(--navy-dark);}
+  .card h3{margin:0 0 8px;font-size:15.5px;color:var(--accent-strong);}
   .card p{margin:0;font-size:13.5px;color:var(--muted);}
   .card .badge{
     display:inline-block;
     font-size:11px;
-    color:var(--navy);
-    background:#eef3f2;
+    color:var(--accent);
+    background:var(--card-tint);
     border-radius:6px;
     padding:2px 8px;
     margin-bottom:10px;
@@ -96,18 +149,18 @@
   /* org structure */
   .org{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:8px;}
   .org .box{
-    background:var(--navy);
-    color:#fff;
+    background:var(--brand);
+    color:var(--brand-ink);
     padding:12px 22px;
     border-radius:8px;
     font-size:14px;
     font-weight:700;
     text-align:center;
   }
-  .org .box.sub{background:#3a6b7a;font-weight:600;font-size:13px;}
+  .org .box.sub{background:var(--brand-tint);font-weight:600;font-size:13px;}
   .org .arrow{color:var(--muted);font-size:13px;}
   .org .rooms{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
-  .org .rooms .box{background:#dfe9e6;color:var(--navy-dark);font-weight:600;font-size:12.5px;padding:8px 14px;}
+  .org .rooms .box{background:var(--room-bg);color:var(--room-ink);font-weight:600;font-size:12.5px;padding:8px 14px;}
 
   table.spec{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);}
   table.spec th, table.spec td{
@@ -115,8 +168,8 @@
     padding:9px 12px;
     text-align:left;
   }
-  table.spec th{background:#eef3f2;color:var(--navy-dark);font-weight:700;}
-  table.spec td.mono{font-family:monospace;color:var(--navy);}
+  table.spec th{background:var(--card-tint);color:var(--accent-strong);font-weight:700;}
+  table.spec td.mono{font-family:monospace;color:var(--accent);}
 
   .steps{list-style:none;margin:0;padding:0;counter-reset:step;}
   .steps li{
@@ -132,7 +185,7 @@
     position:absolute;left:0;top:8px;
     width:26px;height:26px;
     background:var(--gold);
-    color:#fff;
+    color:var(--brand-ink);
     border-radius:50%;
     display:flex;align-items:center;justify-content:center;
     font-size:12.5px;font-weight:700;
@@ -142,7 +195,7 @@
   @media (max-width:720px){.roadmap{grid-template-columns:1fr;}}
   .roadmap .stage{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;}
   .roadmap .stage .when{font-size:12px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
-  .roadmap .stage h4{margin:6px 0 8px;font-size:14.5px;color:var(--navy-dark);}
+  .roadmap .stage h4{margin:6px 0 8px;font-size:14.5px;color:var(--accent-strong);}
   .roadmap .stage p{margin:0;font-size:13px;color:var(--muted);}
 
   .cta{
@@ -158,24 +211,24 @@
   }
   .cta .btn{
     display:inline-block;
-    background:var(--navy);
-    color:#fff !important;
+    background:var(--brand);
+    color:var(--brand-ink) !important;
     text-decoration:none;
     padding:10px 18px;
     border-radius:8px;
     font-size:13.5px;
     font-weight:700;
   }
-  .cta .btn.secondary{background:transparent;color:var(--navy) !important;border:1px solid var(--navy);}
-  .cta .btn.disabled{background:#c8c8c0;pointer-events:none;}
+  .cta .btn.secondary{background:transparent;color:var(--accent) !important;border:1px solid var(--accent);}
+  .cta .btn.disabled{background:var(--disabled-bg);color:var(--disabled-ink) !important;pointer-events:none;}
 
   .note{
-    background:#fbf3e3;
-    border:1px solid #ecd9ad;
+    background:var(--note-bg);
+    border:1px solid var(--note-line);
     border-radius:8px;
     padding:14px 16px;
     font-size:13px;
-    color:#6b5522;
+    color:var(--note-ink);
   }
 
   .activity{
@@ -186,7 +239,7 @@
     margin-bottom:12px;
   }
   .activity .date{font-size:12px;color:var(--gold);font-weight:700;}
-  .activity h4{margin:4px 0 6px;font-size:14.5px;color:var(--navy-dark);}
+  .activity h4{margin:4px 0 6px;font-size:14.5px;color:var(--accent-strong);}
   .activity p{margin:0;font-size:13.5px;color:var(--muted);}
 
   footer{
