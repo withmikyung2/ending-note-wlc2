@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GYA_AMS | GYA 학사관리시스템</title>
+<style>
+  :root{
+    --navy:#1f4e5f;
+    --navy-dark:#153842;
+    --gold:#c99a3a;
+    --bg:#f7f5f0;
+    --card:#ffffff;
+    --ink:#2b2b28;
+    --muted:#6b6b63;
+    --line:#e4ded0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.65;
+  }
+  a{color:var(--navy);}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px;}
+
+  header.hero{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);
+    color:#fff;
+    padding:64px 0 48px;
+  }
+  header.hero .tag{
+    display:inline-block;
+    font-size:13px;
+    letter-spacing:.08em;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.35);
+    padding:4px 12px;
+    border-radius:999px;
+    margin-bottom:18px;
+  }
+  header.hero h1{
+    font-size:clamp(28px,4.5vw,42px);
+    margin:0 0 12px;
+    font-weight:800;
+  }
+  header.hero p.lead{
+    font-size:17px;
+    color:#e7e3d8;
+    max-width:640px;
+    margin:0 0 6px;
+  }
+  header.hero p.meta{
+    font-size:13px;
+    color:#b9c6cb;
+    margin-top:20px;
+  }
+
+  section{padding:52px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  h2{
+    font-size:22px;
+    color:var(--navy);
+    margin:0 0 6px;
+  }
+  h2 .num{color:var(--gold);margin-right:8px;}
+  p.section-desc{color:var(--muted);margin:0 0 28px;font-size:14.5px;}
+
+  .grid{display:grid;gap:16px;}
+  .grid.cols-3{grid-template-columns:repeat(3,1fr);}
+  .grid.cols-2{grid-template-columns:repeat(2,1fr);}
+  @media (max-width:720px){
+    .grid.cols-3, .grid.cols-2{grid-template-columns:1fr;}
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:20px;
+  }
+  .card h3{margin:0 0 8px;font-size:15.5px;color:var(--navy-dark);}
+  .card p{margin:0;font-size:13.5px;color:var(--muted);}
+  .card .badge{
+    display:inline-block;
+    font-size:11px;
+    color:var(--navy);
+    background:#eef3f2;
+    border-radius:6px;
+    padding:2px 8px;
+    margin-bottom:10px;
+  }
+
+  /* org structure */
+  .org{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:8px;}
+  .org .box{
+    background:var(--navy);
+    color:#fff;
+    padding:12px 22px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:700;
+    text-align:center;
+  }
+  .org .box.sub{background:#3a6b7a;font-weight:600;font-size:13px;}
+  .org .arrow{color:var(--muted);font-size:13px;}
+  .org .rooms{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .org .rooms .box{background:#dfe9e6;color:var(--navy-dark);font-weight:600;font-size:12.5px;padding:8px 14px;}
+
+  table.spec{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);}
+  table.spec th, table.spec td{
+    border:1px solid var(--line);
+    padding:9px 12px;
+    text-align:left;
+  }
+  table.spec th{background:#eef3f2;color:var(--navy-dark);font-weight:700;}
+  table.spec td.mono{font-family:monospace;color:var(--navy);}
+
+  .steps{list-style:none;margin:0;padding:0;counter-reset:step;}
+  .steps li{
+    counter-increment:step;
+    position:relative;
+    padding:10px 0 10px 40px;
+    border-bottom:1px dashed var(--line);
+    font-size:14px;
+  }
+  .steps li:last-child{border-bottom:none;}
+  .steps li::before{
+    content:counter(step);
+    position:absolute;left:0;top:8px;
+    width:26px;height:26px;
+    background:var(--gold);
+    color:#fff;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;font-weight:700;
+  }
+
+  .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media (max-width:720px){.roadmap{grid-template-columns:1fr;}}
+  .roadmap .stage{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;}
+  .roadmap .stage .when{font-size:12px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+  .roadmap .stage h4{margin:6px 0 8px;font-size:14.5px;color:var(--navy-dark);}
+  .roadmap .stage p{margin:0;font-size:13px;color:var(--muted);}
+
+  .cta{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .cta .btn{
+    display:inline-block;
+    background:var(--navy);
+    color:#fff !important;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:8px;
+    font-size:13.5px;
+    font-weight:700;
+  }
+  .cta .btn.secondary{background:transparent;color:var(--navy) !important;border:1px solid var(--navy);}
+  .cta .btn.disabled{background:#c8c8c0;pointer-events:none;}
+
+  .note{
+    background:#fbf3e3;
+    border:1px solid #ecd9ad;
+    border-radius:8px;
+    padding:14px 16px;
+    font-size:13px;
+    color:#6b5522;
+  }
+
+  .activity{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:12px;
+  }
+  .activity .date{font-size:12px;color:var(--gold);font-weight:700;}
+  .activity h4{margin:4px 0 6px;font-size:14.5px;color:var(--navy-dark);}
+  .activity p{margin:0;font-size:13.5px;color:var(--muted);}
+
+  footer{
+    padding:28px 0 60px;
+    text-align:center;
+    font-size:12.5px;
+    color:var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">GYA · GWC · Tom Nop Community Education Network</span>
+    <h1>GYA_AMS</h1>
+    <p class="lead">캄보디아 뚬놉(Tom Nop) 지역 GYA Center와 7개 Community Learning Room을 위한
+    학생·교사·출석·평가·활동 통합 관리 시스템 (MVP)</p>
+    <p class="meta">Draft v0.1 · 2026.09 · Google Sheets / Google Forms 기반</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2><span class="num">01</span>왜 GYA_AMS인가</h2>
+    <p class="section-desc">「GYA·GWC 뚬놉 지역 교육혁신 네트워크 구축사업」 제안서를 시스템 요구사항으로 옮긴 시작용(MVP) 도구입니다.</p>
+    <div class="grid cols-3">
+      <div class="card">
+        <span class="badge">문제</span>
+        <h3>흩어진 공부방</h3>
+        <p>7개 공부방이 각자 운영되어 공통 기준·데이터가 없습니다.</p>
+      </div>
+      <div class="card">
+        <span class="badge">목표</span>
+        <h3>하나의 교육체계</h3>
+        <p>GYA Center를 Hub로, 공통 커리큘럼·평가·데이터로 7개 거점을 연결합니다.</p>
+      </div>
+      <div class="card">
+        <span class="badge">방법</span>
+        <h3>로우코드 우선</h3>
+        <p>비용 0원, 현지 교사가 바로 쓸 수 있는 Google Sheets/Forms로 시작합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="num">02</span>운영 구조</h2>
+    <p class="section-desc">제안서 3.1 운영구조를 그대로 시스템 권한 구조로 사용합니다.</p>
+    <div class="org">
+      <div class="box">GWC — 전략 · 재원 · 대외협력</div>
+      <div class="arrow">↓</div>
+      <div class="box">GYA Center (Hub) — 교육과정 · 교사훈련 · 평가 · 데이터</div>
+      <div class="arrow">↓</div>
+      <div class="rooms">
+        <div class="box">TN-01</div>
+        <div class="box">TN-02</div>
+        <div class="box">TN-03</div>
+        <div class="box">TN-04</div>
+        <div class="box">TN-05</div>
+        <div class="box">TN-06</div>
+        <div class="box">TN-07</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="num">03</span>데이터 구조 (Google Sheets 8개 탭)</h2>
+    <p class="section-desc">자세한 필드 명세는 <a href="docs/data-model.md">docs/data-model.md</a>를 참고하세요.</p>
+    <table class="spec">
+      <thead><tr><th>탭</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">00_안내</td><td>사용법 · 색 안내 · ID 규칙</td></tr>
+        <tr><td class="mono">01_거점</td><td>7개 Community Learning Room 현황</td></tr>
+        <tr><td class="mono">02_학생</td><td>학생 등록 정보</td></tr>
+        <tr><td class="mono">03_교사</td><td>Local Teacher 등록 정보</td></tr>
+        <tr><td class="mono">04_출석</td><td>회차별 출석 기록</td></tr>
+        <tr><td class="mono">05_평가_EKM</td><td>English·Khmer·Math baseline/중간/기말 평가</td></tr>
+        <tr><td class="mono">06_교사연수</td><td>월례회의·코칭·집중연수 기록</td></tr>
+        <tr><td class="mono">07_활동로그</td><td>방문·물품지원·행사 기록</td></tr>
+        <tr><td class="mono">08_대시보드</td><td>핵심 지표(KPI) 자동 집계</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="num">04</span>최근 현장 활동</h2>
+    <p class="section-desc">07_활동로그 탭에 실제 기록으로 미리 입력해 두었습니다.</p>
+    <div class="activity">
+      <div class="date">2026.07.23 · TN-01</div>
+      <h4>현장방문</h4>
+      <p>GWC 대표 이미경, 뚬놉 지역 공부방 방문 — 시설과 시급한 필요 물품을 확인했습니다.</p>
+    </div>
+    <div class="activity">
+      <div class="date">2026.07.25 · TN-01</div>
+      <h4>물품지원</h4>
+      <p>공부방 4곳에 화이트보드 4개, 공책 200권을 전달했습니다. GYA는 7개 학습공간을
+      하나의 교육지원체계로 점진적으로 연결할 계획입니다.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="num">05</span>시작하기</h2>
+    <p class="section-desc">Google Forms 5종 명세는 <a href="docs/forms-spec.md">docs/forms-spec.md</a>에 정리되어 있습니다.</p>
+    <div class="cta" style="margin-bottom:16px;">
+      <div>
+        <strong>GYA_AMS 데이터시트 (Google Sheets)</strong>
+        <div style="font-size:13px;color:var(--muted);margin-top:4px;">Drive 연결 후 실제 링크로 교체 예정</div>
+      </div>
+      <span class="btn disabled">시트 열기 (연결 예정)</span>
+    </div>
+    <ol class="steps">
+      <li>데이터시트를 Google Drive에 업로드하고 GYA Hub · GWC 스태프에게 편집 권한을 공유합니다.</li>
+      <li><code>docs/forms-spec.md</code> 명세대로 Google Forms 5종을 만들고 응답을 시트에 연결합니다.</li>
+      <li>01_거점 탭에 7개 공부방 실사 결과를 입력합니다.</li>
+      <li>02_학생 · 03_교사 탭에 baseline 등록 정보를 입력합니다.</li>
+      <li>폼 링크를 QR코드로 만들어 각 공부방에 비치합니다.</li>
+    </ol>
+    <div class="note" style="margin-top:16px;">
+      아동 개인정보·사진은 이 공개 웹사이트나 저장소에 올리지 않습니다. 학생 데이터는
+      비공개 Google Sheets에서만 관리하며, 사진 게재는 사진동의 절차를 확인한 뒤에만 진행합니다.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="num">06</span>로드맵</h2>
+    <p class="section-desc">착수 100일 계획(제안서 8.1)과 연결한 시스템 구축 로드맵입니다.</p>
+    <div class="roadmap">
+      <div class="stage">
+        <div class="when">오늘</div>
+        <h4>구조 설계</h4>
+        <p>데이터 구조 확정, Google Sheets 초안 완성 (현재 단계)</p>
+      </div>
+      <div class="stage">
+        <div class="when">1주</div>
+        <h4>폼 연동</h4>
+        <p>Google Forms 5종 생성 및 시트 연동, 권한 공유</p>
+      </div>
+      <div class="stage">
+        <div class="when">1개월</div>
+        <h4>MVP 가동</h4>
+        <p>7개 거점 실사 데이터·baseline 입력 완료</p>
+      </div>
+      <div class="stage">
+        <div class="when">3개월</div>
+        <h4>파일럿 안정화</h4>
+        <p>12주 파일럿 데이터로 08_대시보드 지표 점검·확장</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    GYA_AMS Draft v0.1 · GYA · GWC | Tumnob Community Education Innovation Network<br>
+    이 페이지는 기존 wlc-note 사이트와 별개의 독립 프로젝트입니다.
+  </div>
+</footer>
+
+</body>
+</html>
